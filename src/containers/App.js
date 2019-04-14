@@ -4,7 +4,6 @@ import './App.css';
 
 class App extends Component {
   constructor (props) {
-    console.log("[App.js] constructor");
     super(props);
   }
 
