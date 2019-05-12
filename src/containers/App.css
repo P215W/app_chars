@@ -1,11 +1,11 @@
 .App {
   text-align: center;
+  margin: 30px;
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
-  pointer-events: none;
 }
 
 .App-header {
@@ -22,6 +22,32 @@
 .App-link {
   color: #61dafb;
 }
+
+
+.h2 {
+  background: rgb(0, 204, 204);
+  opacity: 1;
+}
+
+.h22 {
+  background: rgb(255, 255, 255);
+  opacity: 1;
+  transition: background 5s;
+}
+
+
+ .h2M span {
+  background: rgb(0, 204, 204);
+  opacity: 1;
+}
+
+.h22M span {
+  background: rgb(255, 255, 255);
+  opacity: 1;
+  transition: background 5s;
+}
+
+
 
 @keyframes App-logo-spin {
   from {
