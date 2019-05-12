@@ -7,6 +7,7 @@ const textarea = (props) => {
             cols="100"
             rows="20"
             onChange={props.changed}
+            onClick={props.clicked}
             value={props.value}
         />
     );

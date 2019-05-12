@@ -6,10 +6,10 @@ import Button from "../components/Button/Button";
 import AlteredText from "../components/AlteredText/AlteredText";
 import CustomChanges from "../components/CustomChanges/CustomChanges";
 import Checkboxes2 from "../components/Checkboxes2/Checkboxes2";
+import Auxiliary from "../hoc/Auxiliary";
 
 class App extends Component {
   state = {
-    wishedChar: [{ replaced: "a", by: "AA" }, { replaced: "b", by: "BB" }],
 
     getTextReplacedAsArr: [],
 
@@ -18,20 +18,8 @@ class App extends Component {
     mapObject: new Map(),
 
     transformBtn: "Transform text",
-
-    stringToArray: [],
-
-    stylezzM: "h2M",
-
-    stylezz2: "h22",
-
-    anotherStateProperty: "Value not to be touched!",
-
-    preTextarea: [],
-
-    isTextTransformed: false,
-
-    charForChange: [], // regExp: /[äöüß]/gi,
+    
+    styles: "h2M",
 
     pUnderTextarea: "",
 
@@ -57,6 +45,8 @@ class App extends Component {
     const arr = text.split(" ");
     // maps array to check for matches, and if so, transfrom text + wrap them inot span
     const newArr2 = arr.map(charElement => {
+      console.log("charElement: ", charElement);
+      console.log("state.getTextReplacedAsArr: ", this.state.getTextReplacedAsArr);
       if (this.state.getTextReplacedAsArr.includes(charElement)) {
         /* return <span>{this.state.mapObject.get(charElement)} </span> before: there was a space between charElement and </span */
         // let foundWord = [charElement];
@@ -64,13 +54,7 @@ class App extends Component {
         // let news = foundWord.split("");
         // return <span>{foundWord}</span>
         let news = this.state.mapObject.get(charElement);
-        console.log(`Die ${news} besagen heute, dass.`);
-
-
-        return <span>{news} </span>; // (  // *5: all this comments refer to making the replaced word highlight solely, so without highlightung the whitespace as well.  strategy: 1) decoment, aka. put the first span in a wreapping span, which includes a whitespace after the first span. but you then only highlight the innner span. 2) to ghighligh only the iner span, you have to give it a className. 3) Adjust the while h22M style thing, aka. the method which hast the setTimeout.
-        // return (
-        //   <span><span className={this.state.stylezzM}>{news}</span> </span>
-        // );
+        return <Auxiliary><span>{news}</span> </Auxiliary>;
       } else {
         let charEl = `${charElement} `;
         return charEl.split("");
@@ -82,6 +66,8 @@ class App extends Component {
     const newArr3 = newArr2.map(el2 => {
       if (el2.type === "span") {
         return [el2];
+      } else if (React.isValidElement(el2)) {
+          return [el2];
       } else {
         return el2.map(el3 => {
           if (this.state.standardCharsMapObject.has(el3)) {
@@ -108,8 +94,12 @@ class App extends Component {
       arrUnderTextarea: reTransformedText,
       buttonWasClicked: false,
       transformBtn: "Transform text",
-      stylezzM: "h2M"
+      styles: "h2M"
     });
+  };
+
+  clickhandlerTest = () => {
+    console.log("CLICK geht hier");
   };
 
   createMapObject = event => {
@@ -128,7 +118,6 @@ class App extends Component {
       mapObject: newMap,
       getTextReplacedAsArr: getTextReplacedAsArr
     });
-    console.log("mapObject: ", this.state.mapObject);
   };
 
   mapPropHandler = event => {
@@ -151,7 +140,6 @@ class App extends Component {
   //works down here: 
   // checkboxesHandlerAddingChars = (event, index) => {
   //   // get the value of the checbox
-  //   console.log("EVENT: ", event);
   //   const inputArray = event.target.value.split(" ");
   //   // let copyOfStandardCharsMapObject = this.state.standardCharsMapObject;
 
@@ -203,7 +191,6 @@ class App extends Component {
   render() {
 /* ideas for transformText App:
 - apply nice css style for everything.
-- avoid highlithign whitespaces: search for *5 in this file here.
 - make tesxtarea changeable, meaining after chaning the text, u can type into the textarea and trigger a change again
 */
 
@@ -211,7 +198,7 @@ class App extends Component {
     if (this.state.buttonWasClicked && this.state.buttonWasClicked2) {
       setTimeout(() => {
         this.setState({
-          stylezzM: "h22M",
+          styles: "h22M",
           buttonWasClicked2: false
         });
       }, 500);
@@ -220,7 +207,6 @@ class App extends Component {
     let stringOrArrayForTxtarea = this.state.pUnderTextarea;
     if (this.state.buttonWasClicked) {
       console.log(typeof this.state.arrUnderTextarea);
-      console.log(this.state.arrUnderTextarea);
       let copyOfArrUnderTextarea = this.state.arrUnderTextarea;
       console.log("original: ", copyOfArrUnderTextarea);
       const altered = copyOfArrUnderTextarea.reduce((acc, curr) => {
@@ -228,7 +214,16 @@ class App extends Component {
       }, []);
       console.log("altered: ", altered);
       const getObjectVal = altered.map(el => {
+        console.log("EL: ", el);
         if (typeof el === "object") {
+          if (typeof(el.props.children) === "object") {
+            return el.props.children.map(item => {
+              if (typeof(item) === "object") {
+                return item.props.children;
+              }
+              return item;
+            });
+          }
           return el.props.children;
         } else {
           return el;
@@ -255,6 +250,7 @@ class App extends Component {
         <Textarea
           changed={this.textareaOnChange}
           value={stringOrArrayForTxtarea}
+          clicked={this.clickhandlerTest}
         />
         <Checkboxes2 boxWasChecked={this.checkboxesHandlerAddingChars} />
         <CustomChanges
@@ -271,7 +267,7 @@ class App extends Component {
           clicked={this.copyToClipboardHandlers}
         />
         <AlteredText
-          styling={this.state.stylezzM}
+          styling={this.state.styles}
           ident="newText"
           content={changedOutput}
         />
