@@ -9,6 +9,7 @@ const textarea = (props) => {
             onChange={props.changed}
             onClick={props.clicked}
             value={props.value}
+            id={props.ident}
         />
     );
 };

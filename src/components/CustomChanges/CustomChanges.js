@@ -7,6 +7,7 @@ const customChanges = props => {
       <input
         type="checkbox"
         id="check_free"
+        disabled={props.isCustomInputDisabled ? true : ""}
         value=""
         onClick={props.clickedForMap}
       />

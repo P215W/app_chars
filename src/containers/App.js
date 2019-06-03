@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import Textarea from "../components/Textarea/Textarea";
-import Checkboxes from "../components/Checkboxes/Checkboxes";
 import Button from "../components/Button/Button";
 import AlteredText from "../components/AlteredText/AlteredText";
 import CustomChanges from "../components/CustomChanges/CustomChanges";
@@ -10,6 +9,9 @@ import Auxiliary from "../hoc/Auxiliary";
 
 class App extends Component {
   state = {
+    
+    customWordKeys: [],
+    customWordValues: [],
 
     getTextReplacedAsArr: [],
 
@@ -18,7 +20,7 @@ class App extends Component {
     mapObject: new Map(),
 
     transformBtn: "Transform text",
-    
+
     styles: "h2M",
 
     pUnderTextarea: "",
@@ -28,7 +30,21 @@ class App extends Component {
     buttonWasClicked: false,
     buttonWasClicked2: true,
 
-    newText: ""
+    newText: "",
+
+    boxChecked: {
+      "ß ss": false,
+      "ä ae Ä Ae": false,
+      "ö oe Ö Oe": false,
+      "ü ue Ü Ue": false
+    },
+
+    customBoxChecked: false,
+
+    isCustomInputDisabled: true,
+    
+    customWordAppendix: [",", ";", ".", ":", "-"]
+
   };
 
   textareaOnChange = event => {
@@ -44,10 +60,11 @@ class App extends Component {
     const text = this.state.pUnderTextarea;
     const arr = text.split(" ");
     // maps array to check for matches, and if so, transfrom text + wrap them inot span
-    const newArr2 = arr.map(charElement => {
+    const newArr2 = arr.map((charElement, index, array) => {
       console.log("charElement: ", charElement);
       console.log("state.getTextReplacedAsArr: ", this.state.getTextReplacedAsArr);
       if (this.state.getTextReplacedAsArr.includes(charElement)) {
+        // if (this.state.getTextReplacedAsArr.includes(array[index+1])) { ..
         /* return <span>{this.state.mapObject.get(charElement)} </span> before: there was a space between charElement and </span */
         // let foundWord = [charElement];
         // foundWord = [...foundWord, this.state.mapObject.get(charElement)];
@@ -78,6 +95,7 @@ class App extends Component {
         });
       }
     });
+    console.log("arrUnderTextarea: ", this.state.arrUnderTextarea);
 
     // set arrUnderTextarea equal to that new array
     this.setState({
@@ -100,41 +118,91 @@ class App extends Component {
 
   clickhandlerTest = () => {
     console.log("CLICK geht hier");
+    console.log(this.state);
   };
 
-  createMapObject = event => {
-    // get the text from left (replaced) and right (by) field:
-    const getTextReplaced = this.state.getTextReplaced;
-    const getTextReplacedAsArr = getTextReplaced.split(); // before was .split (" ")
-    // other one:
-    const getTextBy = this.state.getTextBy;
-    // const getTextByAsArr = getTextBy.split(" ");
-    // getTextByAsArr.push(" ");
-
-    const copyMap = this.state.mapObject;
-    const newMap = copyMap.set(getTextReplaced, getTextBy);
-    // just as a test
-    this.setState({
-      mapObject: newMap,
-      getTextReplacedAsArr: getTextReplacedAsArr
-    });
+  joinWordWithAppendix = (word, arr) => {
+    return arr.map(el => word + el);
   };
 
   mapPropHandler = event => {
-    // get the text from left fiereld
-    const mapProp = event.target.value;
-    // set the text to state
+    // get string from left customInput
+    const customKey = event.target.value;
+    const appendixChars = [...this.state.customWordAppendix];
+    const customKeyArray = [
+      customKey, 
+      ...this.joinWordWithAppendix(customKey, appendixChars)
+    ];
+    console.log("customKeyArray: ", customKeyArray);
     this.setState({
-      getTextReplaced: mapProp
+      customWordKeys: customKeyArray,
+      isCustomInputDisabled: event.target.value.length <= 0
     });
   };
 
+  // works down here
+  // mapPropHandler = event => {
+  //   // get text from left input
+  //   const mapProp = event.target.value;
+  //   console.log("mapProp: ", mapProp);
+  //   // set the text to state
+  //   this.setState({
+  //     getTextReplaced: mapProp,
+  //     isCustomInputDisabled: event.target.value.length <= 0
+  //   });
+  //   console.log("neuer State 1?", this.state.getTextReplaced); 
+  // };
+
   mapValueHandler = event => {
-    const mapValue = `${event.target.value}`; // before there was a space here.
-    // set the text to state
+    const customValue = `${event.target.value}`;
+    const appendixChars = [...this.state.customWordAppendix];
+    const customValueArray = [
+      customValue, 
+      ...this.joinWordWithAppendix(customValue, appendixChars)
+    ];
+    console.log("customValueArray: ", customValueArray);
     this.setState({
-      getTextBy: mapValue
+      customWordValues: customValueArray,
     });
+  };
+
+  createMapObject = event => {
+      // get the text from left (replaced / key) and right (by / value) input:
+      // const getTextReplaced = this.state.getTextReplaced;
+      // const getTextReplacedAsArr = getTextReplaced.split(); // before was .split (" ")
+      // let getTextBy = this.state.getTextBy;
+
+    const keyValueArray = [...this.state.customWordKeys, ...this.state.customWordValues];
+
+    if (!this.state.customBoxChecked) {   // adding code path
+      console.log("addercustom meldt sich");
+      const getTextReplacedAsArr = [...this.state.customWordKeys];
+
+      let newMap = this.state.mapObject;
+      for (let i = 0; i < keyValueArray.length / 2; i++) {
+        newMap.set(keyValueArray[i], keyValueArray[keyValueArray.length / 2 + i]);
+      }
+      console.log("createNewMap: ", newMap); 
+      this.setState({
+        mapObject: newMap,
+        getTextReplacedAsArr: getTextReplacedAsArr,
+        customBoxChecked: true
+      });
+    } else {           // removing code path
+        console.log("removerCustom meldet sich");
+        const getTextReplacedAsArr = [];
+
+        let newMap = this.state.mapObject;
+        for (let i = 0; i < keyValueArray.length / 2; i++) {
+          newMap.delete(keyValueArray[i], keyValueArray[keyValueArray.length / 2 + i]);
+        }
+        console.log("createNewMapAfterDel: ", newMap);
+        this.setState({
+          mapObject: newMap,
+          getTextReplacedAsArr: getTextReplacedAsArr,
+          customBoxChecked: false
+        });
+      }
   };
 
   //works down here: 
@@ -153,22 +221,64 @@ class App extends Component {
   //   });
   // };
 
-    checkboxesHandlerAddingChars = value => {
-    // get the value of the checkbox
-    const inputArray = value.split(" ");
-    let copyMap = this.state.standardCharsMapObject;
-    let newMap;
-    for (let i = 0; i <= inputArray.length - 1; i = i + 2) {
-      newMap = copyMap.set(inputArray[i], inputArray[i + 1]);
+  checkboxesHandlerAddingChars = value => {
+    const inputArray = value.split(" ");  // gets strings from checkbox and puts them into an array
+    // if uses the adding code
+    if (!this.state.boxChecked[value]) {
+      console.log("ADDING code meldet sich");
+      let newMap = this.state.standardCharsMapObject;
+      // let newMap = new Map();
+      console.log("newMapPRE: ", newMap);
+      for (let i = 0; i <= inputArray.length - 1; i = i + 2) {
+        newMap.set(inputArray[i], inputArray[i + 1]);
+      }
+      console.log("newMapPOST: ", newMap);
+  
+      // get copy of value
+      let copyOne = {
+        ...this.state.boxChecked
+      };
+      // change the copy
+      copyOne[value] = true;
+      // update state with the copy
+      console.log(copyOne);
+      this.setState({
+        boxChecked: copyOne,
+        standardCharsMapObject: newMap
+      });
+      console.log("standardCharsMapObject: ", this.state.standardCharsMapObject);
+      // console.log("boxChecked " + value + " " + this.state.boxChecked[value]);
+    } else {     // else uses the removing code
+        console.log("REMOVING code meldet sich");
+        let newMap = this.state.standardCharsMapObject;
+        // let newMap = new Map();
+        console.log("newMapPRE: ", newMap);
+        for (let i = 0; i <= inputArray.length - 1; i = i + 2) {
+          newMap.delete(inputArray[i], inputArray[i + 1]);
+        }
+        console.log("newMapPOST: ", newMap);
+    
+        // get copy of value
+        let copyOne = {
+          ...this.state.boxChecked
+        };
+        // change the copy
+        copyOne[value] = false;
+        // update state with the copy
+        console.log(copyOne);
+        this.setState({
+          boxChecked: copyOne,
+          standardCharsMapObject: newMap
+        });
+        console.log("standardCharsMapObject: ", this.state.standardCharsMapObject);
+        // console.log("boxChecked " + value + " " + this.state.boxChecked[value]);
     }
-    this.setState({
-      standardCharsMapObject: newMap
-    });
   };
 
   copyToClipboardHandlers = () => {
-    let text = document.getElementById("newText").innerHTML;
-    let newText = text.replace(/(<span>)|(<\/span>)/g, "");
+    let newText = document.getElementById("changedTextarea").innerHTML;
+    // let newText = text.replace(/(<span>)|(<\/span>)/g, "");
+    // let newTextTrimmed = newText.trim();    
     navigator.clipboard.writeText(newText).then(
       () => {
         console.log("Async clipboard api: Copied text succesfully: ", newText);
@@ -188,10 +298,34 @@ class App extends Component {
     });
   };
 
+  // copyToClipboardHandlers = () => {
+  //   let text = document.getElementById("newText").innerHTML;
+  //   let newText = text.replace(/(<span>)|(<\/span>)/g, "");
+  //   let newTextTrimmed = newText.trim();   // removes whitespaces at start/end of text
+  //   navigator.clipboard.writeText(newTextTrimmed).then(
+  //     () => {
+  //       console.log("Async clipboard api: Copied text succesfully: ", newText);
+  //     },
+  //     err => {
+  //       console.error(
+  //         "Sorry, could not copy text to clipboard",
+  //         err,
+  //         "Text was: ",
+  //         newText
+  //       );
+  //     }
+  //   );
+
+  //   this.setState({
+  //     newText: newText
+  //   });
+  // };
+
   render() {
 /* ideas for transformText App:
+- make custom chars addable (like done already with customWords) 
+- if new input comes in AFTER transform btn was clicked: textarea + buttontext + style must be changed as if we were in the pre-transformation-status
 - apply nice css style for everything.
-- make tesxtarea changeable, meaining after chaning the text, u can type into the textarea and trigger a change again
 */
 
     // fade out of the styling
@@ -230,9 +364,34 @@ class App extends Component {
         }
       });
       console.log("getObjectVal: ", getObjectVal);
-      const joinArray = getObjectVal.join("");
+      // flatten the array from getObjectVal because additional arrays 
+        // will lead to commas in transformed text seen in the textarea
+
+      const tester = element => {
+        if(typeof(element) === "object") {
+          console.log(element);
+          if (element[0] === undefined) {
+            return;
+          } else {
+            return element;
+          }
+        } else {
+          return element; 
+        }
+      };
+
+      const getObjectValWithoutUndef = getObjectVal.filter(tester);
+      console.log(getObjectValWithoutUndef);
+
+      const getObjectValFlat = getObjectValWithoutUndef
+        .reduce((acc, curr) => {
+            return acc.concat(curr);
+        }, []);
+      console.log("getObjectValFlat: ", getObjectValFlat);
+      const joinArray = getObjectValFlat.join("");
+      const joinArrayTrimmed = joinArray.trim();   // removes whitespaces at start/end of text
       console.log("joinArray: ", joinArray, "----");
-      stringOrArrayForTxtarea = joinArray;
+      stringOrArrayForTxtarea = joinArrayTrimmed;
     }
 
     let changedOutput = this.state.pUnderTextarea;
@@ -251,12 +410,17 @@ class App extends Component {
           changed={this.textareaOnChange}
           value={stringOrArrayForTxtarea}
           clicked={this.clickhandlerTest}
+          ident="changedTextarea"
         />
-        <Checkboxes2 boxWasChecked={this.checkboxesHandlerAddingChars} />
+        <Checkboxes2 
+          boxWasChecked={this.checkboxesHandlerAddingChars}
+        />
+        {/* <CustomChar /> */ }
         <CustomChanges
           clickedForMap={this.createMapObject}
           mapPropChanged={this.mapPropHandler}
           mapValueChanged={this.mapValueHandler}
+          isCustomInputDisabled={this.state.isCustomInputDisabled}
         />
         <Button 
           label={this.state.transformBtn} 
@@ -271,7 +435,7 @@ class App extends Component {
           ident="newText"
           content={changedOutput}
         />
-      </div>
+    </div>
     );
   }
 }
