@@ -1,11 +1,12 @@
 import React from 'react';
 import Checkbox from "./Checkbox/Checkbox";
 
+// consider adding this to state aas well
 const checkboxesData = [
-    { label: <span>ß &#8594; ss</span>, value: "ß ss" },
-    { label: <span>ä &#8594; ae</span>, value: "ä ae Ä Ae"},
-    { label: <span>ö &#8594; oe</span>, value: "ö oe Ö Oe"},
-    { label: <span>ü &#8594; ue</span>, value: "ü ue Ü Ue" }
+    { label: <span>ß &#8594; ss</span>, value: ["ß", "ss"] },
+    { label: <span>ä &#8594; ae</span>, value: ["ä", "ae", "Ä", "Ae"] },
+    { label: <span>ö &#8594; oe</span>, value: ["ö", "oe", "Ö", "Oe"] },
+    { label: <span>ü &#8594; ue</span>, value: ["ü", "ue", "Ü", "Ue"] }
 ];
 
 const checkboxes = props => {

@@ -4,8 +4,11 @@ const customChar = props => {
 
     return(
         <div>
-            <label>{props.label}</label>
-            <input type="checkbox" onClick={props.checked} />
+            <p>Custom Char</p>
+            <input type="text" onChange={props.changed.bind(this, "toBeReplaced")} />
+            &#8594;
+            <input type="text" onChange={props.changed.bind(this, "replacing")} />
+            <input type="checkbox" onClick={props.clicked} />
         </div> 
     );
 }

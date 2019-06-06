@@ -4,6 +4,7 @@ import Textarea from "../components/Textarea/Textarea";
 import Button from "../components/Button/Button";
 import AlteredText from "../components/AlteredText/AlteredText";
 import CustomChanges from "../components/CustomChanges/CustomChanges";
+import CustomChar from "../components/CustomChar/CustomChar";
 import Checkboxes2 from "../components/Checkboxes2/Checkboxes2";
 import Auxiliary from "../hoc/Auxiliary";
 
@@ -40,6 +41,11 @@ class App extends Component {
     },
 
     customBoxChecked: false,
+
+    customChar: {
+      toBeReplaced: "",
+      replacing: "" 
+    },
 
     isCustomInputDisabled: true,
     
@@ -221,8 +227,18 @@ class App extends Component {
   //   });
   // };
 
-  checkboxesHandlerAddingChars = value => {
-    const inputArray = value.split(" ");  // gets strings from checkbox and puts them into an array
+  getCustomChar = (targetId, event) => {
+    const customCharCopy = {
+      ...this.state.customChar
+    };
+    customCharCopy[targetId] = event.target.value;
+    this.setState({
+      customChar: customCharCopy
+    });
+  }
+
+  checkboxesCharHandler = value => {
+    const inputArray = value;  // gets strings from checkbox and puts them into an array
     // if uses the adding code
     if (!this.state.boxChecked[value]) {
       console.log("ADDING code meldet sich");
@@ -275,6 +291,16 @@ class App extends Component {
     }
   };
 
+  customCharHandler = event => {
+    const charPair = {   // get char input object from state
+      ...this.state.customChar
+    };
+    const charArray = Object.values(charPair);
+    const charArrayUppercase = charArray.map(c => c.toUpperCase());  // add strings to consider capitalized chars too
+    const inputArray = charArray.concat(charArrayUppercase); // build the inputArray for the method call
+    this.checkboxesCharHandler(inputArray);
+  }
+
   copyToClipboardHandlers = () => {
     let newText = document.getElementById("changedTextarea").innerHTML;
     // let newText = text.replace(/(<span>)|(<\/span>)/g, "");
@@ -298,28 +324,7 @@ class App extends Component {
     });
   };
 
-  // copyToClipboardHandlers = () => {
-  //   let text = document.getElementById("newText").innerHTML;
-  //   let newText = text.replace(/(<span>)|(<\/span>)/g, "");
-  //   let newTextTrimmed = newText.trim();   // removes whitespaces at start/end of text
-  //   navigator.clipboard.writeText(newTextTrimmed).then(
-  //     () => {
-  //       console.log("Async clipboard api: Copied text succesfully: ", newText);
-  //     },
-  //     err => {
-  //       console.error(
-  //         "Sorry, could not copy text to clipboard",
-  //         err,
-  //         "Text was: ",
-  //         newText
-  //       );
-  //     }
-  //   );
 
-  //   this.setState({
-  //     newText: newText
-  //   });
-  // };
 
   render() {
 /* ideas for transformText App:
@@ -337,6 +342,8 @@ class App extends Component {
         });
       }, 500);
     }
+
+    console.log("customChar: ", this.state.customChar);
 
     let stringOrArrayForTxtarea = this.state.pUnderTextarea;
     if (this.state.buttonWasClicked) {
@@ -413,9 +420,9 @@ class App extends Component {
           ident="changedTextarea"
         />
         <Checkboxes2 
-          boxWasChecked={this.checkboxesHandlerAddingChars}
+          boxWasChecked={this.checkboxesCharHandler}
         />
-        {/* <CustomChar /> */ }
+        <CustomChar clicked={this.customCharHandler} changed={this.getCustomChar} />
         <CustomChanges
           clickedForMap={this.createMapObject}
           mapPropChanged={this.mapPropHandler}
