@@ -124,6 +124,7 @@ class App extends Component {
 
   clickhandlerTest = () => {
     console.log("CLICK geht hier");
+    alert("UNDOOO !!!");
     console.log(this.state);
   };
 
@@ -324,11 +325,8 @@ class App extends Component {
     });
   };
 
-
-
   render() {
 /* ideas for transformText App:
-- make custom chars addable (like done already with customWords) 
 - if new input comes in AFTER transform btn was clicked: textarea + buttontext + style must be changed as if we were in the pre-transformation-status
 - apply nice css style for everything.
 */
