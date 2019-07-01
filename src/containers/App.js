@@ -379,6 +379,86 @@ class App extends Component {
     }
   };
 
+  handleCharDeletion = inputMap => {
+      // else uses the removing code
+      console.log("REMOVING code meldet sich");
+      console.log("inputMap: ", inputMap);
+      let newMap = this.state.standardCharsMapObject;
+      // let newMap = new Map();
+      console.log("newMapPRE: ", newMap);
+      // for (let i = 0; i <= inputArray.length - 1; i = i + 2) {
+        newMap.delete(inputMap.replaced, inputMap.replacing);
+      // }
+      console.log("newMapPOST: ", newMap);
+
+      // get copy of value
+      let copyOne = {
+        ...this.state.boxChecked
+      };
+      // change the copy
+      // copyOne[value] = false;
+      // update state with the copy
+      // console.log(copyOne);
+      this.setState({
+        boxChecked: copyOne,
+        standardCharsMapObject: newMap
+      });
+      console.log(
+        "standardCharsMapObject: ",
+        this.state.standardCharsMapObject
+      );
+      // console.log("boxChecked " + value + " " + this.state.boxChecked[value]);
+  }
+
+  handleWordDeletion = mapObject => {
+      // removing code path
+      console.log("removerCustom meldet sich");
+      console.log("mapObject: ", mapObject);
+      console.log("mapObject.toBeReplaced: ", mapObject.toBeReplaced);
+      console.log("this.state.mapObject: ", this.state.mapObject);
+
+      // customWordAppendix: [",", ";", ".", ":", "-"],
+      const customWordAppendCopy = [...this.state.customWordAppendix];
+      const joinedStr = customWordAppendCopy.map(el => `${mapObject.toBeReplaced}${el}`);
+      const fullyJoined = [mapObject.toBeReplaced, ...joinedStr];
+      console.log("joinedStr: ", fullyJoined);
+      let newMap = this.state.mapObject;
+      console.log("createNewMapBEFOREDel: ", newMap);
+
+      const logit = el => {
+        console.log("elementjoinedYstr: ", el);
+        newMap.delete(el);
+      };
+      fullyJoined.forEach(logit);
+
+      // const keyValueArray = [
+      //   ...this.state.customWordKeys,
+      //   ...this.state.customWordValues
+      // ];
+      // console.log("keyValueArray: ", keyValueArray);
+      // const getTextReplacedAsArr = [];
+
+      // let newMap = this.state.mapObject;
+      // for (let i = 0; i < keyValueArray.length / 2; i++) {
+      //   newMap.delete(
+      //     keyValueArray[i],
+      //     // mapObject.toBeReplaced,
+      //     keyValueArray[keyValueArray.length / 2 + i]
+      //     // mapObject.replacing
+      //   );
+      // }
+      console.log("createNewMapAfterDel: ", newMap);
+
+      // const newWordValueArr = [...this.state.wordValueArr];
+
+      this.setState({
+        mapObject: newMap
+        // getTextReplacedAsArr: getTextReplacedAsArr,
+        // customBoxChecked: false,
+        // wordValueArr: newWordValueArr
+      });
+    }
+
   handleSubmitCustomChar = event => {
     event.preventDefault();
     const charPair = {
@@ -429,7 +509,7 @@ class App extends Component {
 - show a summary box (like order modal in app, btu constatnyl shown) where user sees chars/words and can remove some of the list
 - apply nice css style for everything.
 */
-
+    console.log("this.state.mapObject: ", this.state.mapObject);
     // fade out of the styling
     if (this.state.buttonWasClicked && this.state.buttonWasClicked2) {
       setTimeout(() => {
@@ -537,6 +617,8 @@ class App extends Component {
           characters={this.state.standardCharsMapObject}
           words={this.state.mapObject}
           arrForRenderingChangedWords={this.state.wordValueArr}
+          handleDeletionForChar={this.handleCharDeletion}
+          handleDeletionForWord={this.handleWordDeletion}
         />
         <AlteredText
           styling={this.state.styles}
