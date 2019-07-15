@@ -11,6 +11,7 @@ import SummaryOfChange from "../components/SummaryOfChange/SummaryOfChange.js";
 
 class App extends Component {
   state = {
+
     customWordKeys: [],
     customWordValues: [],
 
@@ -61,7 +62,30 @@ class App extends Component {
 
     wordValueArr: [],
 
-    isTyping: false
+    isTyping: false,
+
+    standardCheckboxes: [
+      {
+        label: <span>ß &#8594; ss</span>,
+        value: ["ß", "ss"],
+        nbrForStatus: 0
+      },
+      {
+        label: <span>ä &#8594; ae</span>,
+        value: ["ä", "ae", "Ä", "Ae"],
+        nbrForStatus: 0 
+      },
+      {
+        label: <span>ö &#8594; oe</span>,
+        value: ["ö", "oe", "Ö", "Oe"],
+        nbrForStatus: 0
+      },
+      {
+        label: <span>ü &#8594; ue</span>,
+        value: ["ü", "ue", "Ü", "Ue"],
+        nbrForStatus: 0
+      }
+    ] 
   };
 
   textareaOnChange = event => {
@@ -79,11 +103,6 @@ class App extends Component {
     const arr = text.split(" ");
     // maps array to check for matches, and if so, transfrom text + wrap them inot span
     const newArr2 = arr.map((charElement, index, array) => {
-      console.log("charElement: ", charElement);
-      console.log(
-        "state.getTextReplacedAsArr: ",
-        this.state.getTextReplacedAsArr
-      );
       if (this.state.getTextReplacedAsArr.includes(charElement)) {
         // if (this.state.getTextReplacedAsArr.includes(array[index+1])) { ..
         /* return <span>{this.state.mapObject.get(charElement)} </span> before: there was a space between charElement and </span */
@@ -91,7 +110,10 @@ class App extends Component {
         // foundWord = [...foundWord, this.state.mapObject.get(charElement)];
         // let news = foundWord.split("");
         // return <span>{foundWord}</span>
+        console.log("this.state.getTextReplacedAsArr", this.state.getTextReplacedAsArr);
+        console.log("charElement: ", charElement);
         let news = this.state.mapObject.get(charElement);
+        console.log("news: ", news);
         return (
           <Auxiliary>
             <span>{news}</span>{" "}
@@ -102,8 +124,6 @@ class App extends Component {
         return charEl.split("");
       }
     });
-
-    console.log("newArr2: ", newArr2);
 
     const newArr3 = newArr2.map(el2 => {
       if (el2.type === "span") {
@@ -219,26 +239,14 @@ class App extends Component {
       ...this.state.customWordKeys,
       ...this.state.customWordValues
     ];
-    console.log("keyValueArray: ", keyValueArray);
 
     const wordValueCopy = {
       ...this.state.wordValue
     };
-    console.log("wordValueCopy: ", wordValueCopy);
 
-    // const wordValueArrCopy = [
-    //   ...this.state.wordValueArr
-    // ];
-    // console.log("wordValueArrCopy: ", wordValueArrCopy);
-
-    // wordValueArrCopy.push(wordValueCopy);
-    // console.log("wordValueArrCopy AFTER: ", wordValueArrCopy);
-
-    // console.log("wordValueCopy: ", wordValueCopy);
     wordValueCopy.toBeReplaced = "";
     wordValueCopy.replacing = "";
  
-    // if (!this.state.customBoxChecked) {
       // adding code path
       console.log("adderCustomWord meldet sich");
       const getTextReplacedAsArrCopy = [
@@ -318,30 +326,30 @@ class App extends Component {
     });
   };
 
-  checkboxesCharHandler = value => {
+  checkboxesCharHandler = (value, index) => {
     const inputArray = value; // gets strings from checkbox and puts them into an array
     // if uses the adding code
     if (!this.state.boxChecked[value]) {
-      console.log("ADDING code meldet sich");
-      let newMap = this.state.standardCharsMapObject;
-      // let newMap = new Map();
+      console.log("ADDING code meldet sich", value);
+      console.log("index: ", index);
+      let newMap = new Map (this.state.standardCharsMapObject);
       console.log("newMapPRE: ", newMap);
       for (let i = 0; i <= inputArray.length - 1; i = i + 2) {
         newMap.set(inputArray[i], inputArray[i + 1]);
       }
       console.log("newMapPOST: ", newMap);
 
-      // get copy of value
-      let copyOne = {
-        ...this.state.boxChecked
-      };
-      // change the copy
-      copyOne[value] = true;
-      // update state with the copy
-      console.log(copyOne);
+      // get copy
+      const newStandardCheckboxes = [...this.state.standardCheckboxes];
+      if (index) {
+        // change copy
+        newStandardCheckboxes[index].nbrForStatus = value.length/2;  // disables btn
+        console.log("value.length/2: ", value.length/2);
+      }
+
       this.setState({
-        boxChecked: copyOne,
-        standardCharsMapObject: newMap
+        standardCharsMapObject: newMap,
+        standardCheckboxes: newStandardCheckboxes
       });
       console.log(
         "standardCharsMapObject: ",
@@ -379,29 +387,31 @@ class App extends Component {
     }
   };
 
-  handleCharDeletion = inputMap => {
+  handleCharDeletion = (inputMap, index) => {
       // else uses the removing code
       console.log("REMOVING code meldet sich");
       console.log("inputMap: ", inputMap);
-      let newMap = this.state.standardCharsMapObject;
-      // let newMap = new Map();
+      console.log("index: ", index);
+      // let newMap = this.state.standardCharsMapObject;
+      let newMap = new Map(this.state.standardCharsMapObject);
       console.log("newMapPRE: ", newMap);
-      // for (let i = 0; i <= inputArray.length - 1; i = i + 2) {
-        newMap.delete(inputMap.replaced, inputMap.replacing);
-      // }
+      newMap.delete(inputMap.replaced, inputMap.replacing);
       console.log("newMapPOST: ", newMap);
-
-      // get copy of value
-      let copyOne = {
-        ...this.state.boxChecked
-      };
-      // change the copy
-      // copyOne[value] = false;
-      // update state with the copy
-      // console.log(copyOne);
+      // get copy
+      const newStandardCheckboxes = [...this.state.standardCheckboxes];
+      const getIdx = newStandardCheckboxes.findIndex(el => {
+        console.log("el: ", el);
+        return el.value.includes(inputMap.replaced);
+      });
+      console.log("getIdx: ", getIdx);
+      // change copy + update
+      if (getIdx !== -1) {
+        newStandardCheckboxes[getIdx].nbrForStatus = newStandardCheckboxes[getIdx].nbrForStatus - 1;
+        console.log("newStandardCheckboxes[index].nbrForStatus: ", newStandardCheckboxes[getIdx].nbrForStatus);
+      }
       this.setState({
-        boxChecked: copyOne,
-        standardCharsMapObject: newMap
+        standardCharsMapObject: newMap,
+        standardCheckboxes: newStandardCheckboxes
       });
       console.log(
         "standardCharsMapObject: ",
@@ -431,6 +441,14 @@ class App extends Component {
       };
       fullyJoined.forEach(logit);
 
+      // HIER ist es
+      const getTextReplacedAsArrCopy = [...this.state.getTextReplacedAsArr];
+      const wordsToReplace = getTextReplacedAsArrCopy.filter(
+        el => (el = !fullyJoined.includes(el))
+      );
+      console.log("wordsToReplace: ", wordsToReplace);
+      // HIER endet es
+
       // const keyValueArray = [
       //   ...this.state.customWordKeys,
       //   ...this.state.customWordValues
@@ -446,16 +464,21 @@ class App extends Component {
       //     keyValueArray[keyValueArray.length / 2 + i]
       //     // mapObject.replacing
       //   );
-      // }
-      console.log("createNewMapAfterDel: ", newMap);
 
-      // const newWordValueArr = [...this.state.wordValueArr];
+
+      const newWordValueArrCopy = [...this.state.wordValueArr];
+            // }
+            console.log("newWordValueArrCopy: ", newWordValueArrCopy);
+      const shortenedWordArr = newWordValueArrCopy.filter(el => {
+        console.log("el: ", el);
+        return el.toBeReplaced !== mapObject.toBeReplaced;
+      });
+      console.log("shortenedWordArr: ", shortenedWordArr);
 
       this.setState({
-        mapObject: newMap
-        // getTextReplacedAsArr: getTextReplacedAsArr,
-        // customBoxChecked: false,
-        // wordValueArr: newWordValueArr
+        mapObject: newMap,
+        getTextReplacedAsArr: wordsToReplace,
+        wordValueArr: shortenedWordArr
       });
     }
 
@@ -476,6 +499,7 @@ class App extends Component {
     const charArrayUppercase = charArray.map(c => c.toUpperCase()); // add strings to consider capitalized chars too
     const inputArray = charArray.concat(charArrayUppercase); // build the inputArray for the method call
     this.checkboxesCharHandler(inputArray);
+
     this.setState({
       value: valueCopy
     });
@@ -506,6 +530,8 @@ class App extends Component {
 
   render() {
     /* ideas for transformText App:
+    - problem wit the del -word- button: apparently i only delete the replacingWith-part (aka the right-side) of the word-pair, but not the toBeReplaced-part (aka the left-side). so thats why the wrd gets still replaced after clicking "Del", but it gets replaced with an empty space.
+    so wquwasrion: question : how does the word replacement actually work?
 - show a summary box (like order modal in app, btu constatnyl shown) where user sees chars/words and can remove some of the list
 - apply nice css style for everything.
 */
@@ -578,6 +604,7 @@ class App extends Component {
     let changedOutput = this.state.pUnderTextarea;
     if (this.state.buttonWasClicked) {
       changedOutput = this.state.arrUnderTextarea;
+      console.log("changedOutput: ", changedOutput);
     }
 
     let btnHandler = this.transformHandler;
@@ -594,7 +621,7 @@ class App extends Component {
           clicked={this.clickhandlerTest}
           ident="changedTextarea"
         />
-        <Checkboxes2 boxWasChecked={this.checkboxesCharHandler} />
+        <Checkboxes2 boxWasChecked={this.checkboxesCharHandler} checkboxesData={this.state.standardCheckboxes} />
         <CustomChar
           valueLeft={this.state.value.toBeReplaced}
           valueRight={this.state.value.replacing}
@@ -619,6 +646,7 @@ class App extends Component {
           arrForRenderingChangedWords={this.state.wordValueArr}
           handleDeletionForChar={this.handleCharDeletion}
           handleDeletionForWord={this.handleWordDeletion}
+          forMethodTesting={this.state.forMethodTesting}
         />
         <AlteredText
           styling={this.state.styles}

@@ -4,22 +4,31 @@ import ExchangeWord from "./ExchangeWord/ExchangeWord";
 
 const summaryOfChange = props => {
   // CHARS-mapObject to Array for mapping within JSX
-  const arrForSummaryOfChange = [];
+
+  const arrForSummaryOfChangeChars = [];
   props.characters.forEach((value, key, map) => {
-    arrForSummaryOfChange.push({ replaced: key, replacing: value });
+    arrForSummaryOfChangeChars.push({ replaced: key, replacing: value });
   });
-  console.log("arrForSummaryOfChange: ", arrForSummaryOfChange);
+  console.log("arrForSummaryOfChange: ", arrForSummaryOfChangeChars);
+
+  // words down here
+  const arrForSummaryOfChangeWords = [];
+  props.words.forEach((value, key, map) => {
+    arrForSummaryOfChangeWords.push({ replaced: key, replacing: value });
+  });
+  console.log("arrForSummaryOfChangeChars: ", arrForSummaryOfChangeChars);
+  // end
 
   return (
     <div>
       <h2>You will exchange these characters:</h2>
       <div>
-        {arrForSummaryOfChange.map((element, index) => (
+        {arrForSummaryOfChangeChars.map((element, index) => (
           <ExchangeChar
             key={`${element.replaced}+${index}`}
             toBeReplaced={element.replaced}
             replacing={element.replacing}
-            handleDeletionForChar={props.handleDeletionForChar.bind(this, element)}
+            handleDeletionForChar={props.handleDeletionForChar.bind(this, element, index)}
           />
         ))}
       </div>

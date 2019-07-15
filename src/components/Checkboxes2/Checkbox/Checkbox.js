@@ -4,7 +4,7 @@ const checkbox = props => {
     return (
         <div>
             <label>{props.label}</label>
-            <input type="checkbox" onClick={props.checked} />
+            <button onClick={props.checked} disabled={props.disabledStatus}>Add</button>
         </div> 
     );
 };
