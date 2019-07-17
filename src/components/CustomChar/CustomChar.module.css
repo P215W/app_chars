@@ -1,9 +1,9 @@
-.customChanges input[type="text"] {
+.customChar input[type="text"] {
     /* height: 100px; */
     padding: 12px 20px 12px 20px;
 }
 
-.customChanges input[type="submit"] {
+.customChar input[type="submit"] {
     border: 1px solid #ccc;
     background-color: #66cc00;
     color: white;
@@ -13,12 +13,12 @@
     box-shadow: 1px 1px #ccc;
 }
 
-.customChanges input[type="submit"]:hover {
+.customChar input[type="submit"]:hover {
     background-color: #ccff99;
     color: #8c8c8c;
 }
 
-.customChanges input[type="submit"]:disabled {
+.customChar input[type="submit"]:disabled {
         background-color: #ccff99;
         color: #cccccc;
 }

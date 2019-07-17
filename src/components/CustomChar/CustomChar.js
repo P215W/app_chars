@@ -1,25 +1,25 @@
 import React from "react";
+import styles from "./CustomChar.module.css";
 
 const customChar = props => {
   return (
-    <div>
+    <div className={styles.customChar}>
       <form>
-        <label>
-          Change Another Character:{" "}
+        <label>Replace More Char's
+        <div>
           <input
             type="text"
             maxLength="1"
-            size="10"
+            size="9"
             placeholder="to be replaced"
             value={props.valueLeft}
             onChange={props.handleChange.bind(this, "toBeReplaced")}
           />
-        </label>
         &#8594;
         <input
           type="text"
           maxLength="20"
-          size="10"
+          size="9"
           placeholder="replacing"
           value={props.valueRight}
           onChange={props.handleChange.bind(this, "replacing")}
@@ -30,6 +30,8 @@ const customChar = props => {
           onClick={props.handleSubmit}
           disabled={props.valueLeft.length <= 0 ? true : ""}
         />
+        </div>
+        </label>
       </form>
     </div>
   );

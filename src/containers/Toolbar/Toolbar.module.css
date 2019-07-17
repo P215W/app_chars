@@ -1,0 +1,13 @@
+.toolbar {
+    margin: 0px auto 20px auto;
+}
+
+
+@media only screen and (min-width: 800px) {
+    .toolbar {
+        display: flex;
+        justify-content: space-evenly;
+        /* border: 3px solid lightseagreen; */
+    }
+}
+

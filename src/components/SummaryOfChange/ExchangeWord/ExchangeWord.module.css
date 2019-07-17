@@ -1,0 +1,14 @@
+.exchangeWord {
+    border: 1.5px solid #ccff99;
+    box-shadow: 2px 2px #73e600;
+    width: 35%;
+    height: auto;
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    font-size: auto;
+}

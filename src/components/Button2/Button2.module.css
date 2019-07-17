@@ -1,0 +1,25 @@
+button:disabled {
+    background-color: #ccff99;
+    color: #cccccc;
+}
+
+.button2 {
+    border: 1px solid #ccc;
+    background-color: #66cc00;
+    color: white;
+    text-align: center;
+    margin: 10px;
+    padding: 12px 20px 12px 20px;
+    box-shadow: 1px 1px #ccc;
+}
+
+.button2Hover {
+    border: 1px solid #ccc;
+    background-color: #ccff99;
+    /* color: #666666; */
+    color: #8c8c8c;
+    text-align: center;
+    margin: 10px;
+    padding: 12px 20px 12px 20px;
+    box-shadow: 1px 1px #ccc;
+}

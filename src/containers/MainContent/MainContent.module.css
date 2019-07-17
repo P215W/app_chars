@@ -1,0 +1,13 @@
+.mainContent {
+    margin: 0px auto 20px auto;
+    /* border: 1px solid blue; */
+}
+    
+@media screen and (min-width: 800px) {
+    .mainContent {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+    }
+}

@@ -1,0 +1,12 @@
+.exchangeChar {
+    border: 1.5px solid #ccff99;
+    box-shadow: 2px 2px #73e600;
+    width: 35%;
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}

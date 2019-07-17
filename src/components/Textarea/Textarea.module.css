@@ -6,8 +6,7 @@
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 220px;
-    background-color: #555;
-    color: #fff;
+    background-color: #ccff99;
     text-align: center;
     border-radius: 6px;
     padding: 5px 5px;
@@ -28,10 +27,17 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #555 transparent transparent transparent;
+    border-color: #ccff99 transparent transparent transparent;
 }
   
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+@media screen and (min-width: 800px) {
+    .textarea {
+        flex: 1;
+        order: 1;
+    }
 }

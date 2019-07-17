@@ -1,0 +1,15 @@
+/* .checkboxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid red;
+} */
+
+.checkboxesInRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid orange; */
+}

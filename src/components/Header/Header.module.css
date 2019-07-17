@@ -1,0 +1,19 @@
+.header {
+    margin: 0px auto 20px auto;
+    background-color: #ccff99;
+    border: 1px solid #99ff33;
+    height: 15%;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+@media screen and (min-width: 800px) {
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        height: 1%;
+        /* border: 1px solid orange; */
+    }
+}

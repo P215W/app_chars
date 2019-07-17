@@ -1,14 +1,13 @@
 import React from 'react';
 import styles from "./Textarea.module.css";
 
-const textarea = (props) => {
+const textarea = props => {
     return (
-        <div className={props.isTyping ? "" : styles.tooltip}>
-            <span className={styles.tooltiptext}>{props.isTyping ? null : <span>Not done yet?<br />Click and type to re-start text transformation.</span>}</span>
+        <div className={[props.isTyping ? "" : styles.tooltip, styles.textarea].join(" ")} >
+            <span className={styles.tooltiptext}>{props.isTyping ? null : <span>Click &amp; insert text to re-start text transformation.</span>}</span>
             <textarea
-                placeholder="Insert text here"
-                cols="100"
-                rows="20"
+                cols={props.textareaWidth}
+                rows="12"
                 onChange={props.changed}
                 onClick={props.clicked}
                 value={props.value}

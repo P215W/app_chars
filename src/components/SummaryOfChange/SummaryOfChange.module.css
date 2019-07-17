@@ -1,0 +1,23 @@
+.charCards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.summaryOfChange {
+    /* border: 1px solid red; */
+    text-align: left;
+    padding: 0px;
+}
+
+@media screen and (min-width: 800px) {
+    .charCards {
+        justify-content: flex-start;
+    }
+
+    .summaryOfChange {
+        flex: 1;
+        order: 2;
+    }
+}

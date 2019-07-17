@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import "./App.css";
-import Textarea from "../components/Textarea/Textarea";
 import Button from "../components/Button/Button";
 import AlteredText from "../components/AlteredText/AlteredText";
 import CustomChanges from "../components/CustomChanges/CustomChanges";
 import CustomChar from "../components/CustomChar/CustomChar";
 import Checkboxes2 from "../components/Checkboxes2/Checkboxes2";
 import Auxiliary from "../hoc/Auxiliary";
+import Header from "../components/Header/Header.js";
+import Toolbar from "./Toolbar/Toolbar.js";
+import MainContent from "./MainContent/MainContent.js";
+import Textarea from "../components/Textarea/Textarea";
 import SummaryOfChange from "../components/SummaryOfChange/SummaryOfChange.js";
+import Button2 from "../components/Button2/Button2.js";
 
 class App extends Component {
   state = {
@@ -65,11 +69,11 @@ class App extends Component {
     isTyping: false,
 
     standardCheckboxes: [
-      {
-        label: <span>ß &#8594; ss</span>,
-        value: ["ß", "ss"],
-        nbrForStatus: 0
-      },
+      // {
+      //   label: <span>ß &#8594; ss</span>,
+      //   value: ["ß", "ss"],
+      //   nbrForStatus: 0
+      // },
       {
         label: <span>ä &#8594; ae</span>,
         value: ["ä", "ae", "Ä", "Ae"],
@@ -84,8 +88,31 @@ class App extends Component {
         label: <span>ü &#8594; ue</span>,
         value: ["ü", "ue", "Ü", "Ue"],
         nbrForStatus: 0
+      },
+      {
+        label: <span>ß &#8594; ss</span>,
+        value: ["ß", "ss"],
+        nbrForStatus: 0
       }
-    ] 
+    ],
+    textareaWidth: 68
+  };
+
+  logOut = () => {
+      const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      console.log("w: ", w, "h: ", h);
+      if (w <= 500) {
+        this.setState({
+          textareaWidth: 35
+        });
+      }
+  };
+
+
+  
+  componentDidMount () {
+    this.logOut();
   };
 
   textareaOnChange = event => {
@@ -341,8 +368,8 @@ class App extends Component {
 
       // get copy
       const newStandardCheckboxes = [...this.state.standardCheckboxes];
-      if (index) {
-        // change copy
+      if (index >= 0) {
+        console.log("ARSCH DU!!!!!!!!!", index);
         newStandardCheckboxes[index].nbrForStatus = value.length/2;  // disables btn
         console.log("value.length/2: ", value.length/2);
       }
@@ -614,39 +641,55 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Textarea
-          changed={this.textareaOnChange}
-          isTyping={this.state.isTyping}
-          value={stringOrArrayForTxtarea}
-          clicked={this.clickhandlerTest}
-          ident="changedTextarea"
-        />
-        <Checkboxes2 boxWasChecked={this.checkboxesCharHandler} checkboxesData={this.state.standardCheckboxes} />
-        <CustomChar
-          valueLeft={this.state.value.toBeReplaced}
-          valueRight={this.state.value.replacing}
-          handleSubmit={this.handleSubmitCustomChar}
-          handleChange={this.handleChangeCustomChar}
-        />
-        <CustomChanges
-          valueLeft={this.state.wordValue.toBeReplaced}
-          valueRight={this.state.wordValue.replacing}
-          handleMapPropChange={this.handleMapPropChange}
-          handleMapValueChange={this.handleMapValueChange}
-          handleSubmit={this.handleSubmitForCustomChanges}
-        />
-        <Button label={this.state.transformBtn} clicked={btnHandler} />
+        <Header />
+        <Toolbar>
+          <Checkboxes2 boxWasChecked={this.checkboxesCharHandler} checkboxesData={this.state.standardCheckboxes} />
+          <CustomChar
+            valueLeft={this.state.value.toBeReplaced}
+            valueRight={this.state.value.replacing}
+            handleSubmit={this.handleSubmitCustomChar}
+            handleChange={this.handleChangeCustomChar}
+          />
+          <CustomChanges
+            valueLeft={this.state.wordValue.toBeReplaced}
+            valueRight={this.state.wordValue.replacing}
+            handleMapPropChange={this.handleMapPropChange}
+            handleMapValueChange={this.handleMapValueChange}
+            handleSubmit={this.handleSubmitForCustomChanges}
+          />
+        </Toolbar>
+        <MainContent>
+          <Textarea
+            textareaWidth={this.state.textareaWidth}
+            changed={this.textareaOnChange}
+            isTyping={this.state.isTyping}
+            value={stringOrArrayForTxtarea}
+            clicked={this.clickhandlerTest}
+            ident="changedTextarea"
+          />
+          <SummaryOfChange
+            characters={this.state.standardCharsMapObject}
+            words={this.state.mapObject}
+            arrForRenderingChangedWords={this.state.wordValueArr}
+            handleDeletionForChar={this.handleCharDeletion}
+            handleDeletionForWord={this.handleWordDeletion}
+            forMethodTesting={this.state.forMethodTesting}
+          />
+        </MainContent>
+        {/* <Button label={this.state.transformBtn} clicked={btnHandler} />
         <Button
-          label="Copy to Clipboard!"
+          label="Copy to Clipboard"
           clicked={this.copyToClipboardHandlers}
+        /> */}
+        <Button2
+          label={this.state.transformBtn}
+          clickHandler={btnHandler}
+          isDisabled={false}
         />
-        <SummaryOfChange
-          characters={this.state.standardCharsMapObject}
-          words={this.state.mapObject}
-          arrForRenderingChangedWords={this.state.wordValueArr}
-          handleDeletionForChar={this.handleCharDeletion}
-          handleDeletionForWord={this.handleWordDeletion}
-          forMethodTesting={this.state.forMethodTesting}
+        <Button2
+          label="Copy to Clipboard"
+          clickHandler={this.copyToClipboardHandlers}
+          isDisabled={false}
         />
         <AlteredText
           styling={this.state.styles}

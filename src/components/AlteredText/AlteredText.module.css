@@ -1,0 +1,8 @@
+.alteredText {
+        box-sizing: border-box;
+        width: auto;
+        height: 45%;
+        overflow: auto;
+        margin: 20px auto 30px auto;
+        color: #666666;
+}
