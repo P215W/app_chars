@@ -1,10 +1,17 @@
 .customChanges input[type="text"] {
     /* height: 100px; */
     padding: 12px 20px 12px 20px;
+    border: 1px solid #8c8c8c;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
 }
 
 .customChanges input[type="submit"] {
     border: 1px solid #ccc;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
     background-color: #66cc00;
     color: white;
     text-align: center;
@@ -21,4 +28,10 @@
 .customChanges input[type="submit"]:disabled {
         background-color: #ccff99;
         color: #cccccc;
+}
+
+@media screen and (max-width: 768px) {
+    .customChanges {
+        margin: 0px 0px 10px 0px;
+    }
 }

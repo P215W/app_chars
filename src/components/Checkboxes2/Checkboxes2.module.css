@@ -11,5 +11,10 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    /* border: 1px solid orange; */
+}
+
+@media screen and (max-width: 768px) {
+    .checkboxes {
+        margin: 0px 0px 20px 0px;
+    }
 }

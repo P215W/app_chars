@@ -95,7 +95,7 @@ class App extends Component {
         nbrForStatus: 0
       }
     ],
-    textareaWidth: 68
+    textareaWidth: 50
   };
 
   logOut = () => {
@@ -556,11 +556,9 @@ class App extends Component {
   };
 
   render() {
-    /* ideas for transformText App:
-    - problem wit the del -word- button: apparently i only delete the replacingWith-part (aka the right-side) of the word-pair, but not the toBeReplaced-part (aka the left-side). so thats why the wrd gets still replaced after clicking "Del", but it gets replaced with an empty space.
-    so wquwasrion: question : how does the word replacement actually work?
-- show a summary box (like order modal in app, btu constatnyl shown) where user sees chars/words and can remove some of the list
-- apply nice css style for everything.
+/* ideas for transformText App:
+- delete all console.log's
+- delete all non-explanatory comments (aka all useless comments)
 */
     console.log("this.state.mapObject: ", this.state.mapObject);
     // fade out of the styling

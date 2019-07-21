@@ -1,10 +1,17 @@
 .customChar input[type="text"] {
     /* height: 100px; */
     padding: 12px 20px 12px 20px;
+    border: 1px solid #8c8c8c;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
 }
 
 .customChar input[type="submit"] {
     border: 1px solid #ccc;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
     background-color: #66cc00;
     color: white;
     text-align: center;
@@ -21,4 +28,10 @@
 .customChar input[type="submit"]:disabled {
         background-color: #ccff99;
         color: #cccccc;
+}
+
+@media screen and (max-width: 768px) {
+    .customChar {
+        margin: 0px 0px 15px 0px;
+    }
 }

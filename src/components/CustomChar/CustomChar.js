@@ -15,7 +15,7 @@ const customChar = props => {
             value={props.valueLeft}
             onChange={props.handleChange.bind(this, "toBeReplaced")}
           />
-        &#8594;
+        {" "} &#8594; {" "}
         <input
           type="text"
           maxLength="20"

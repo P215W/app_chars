@@ -5,21 +5,27 @@ button:disabled {
 
 .button2 {
     border: 1px solid #ccc;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
     background-color: #66cc00;
     color: white;
     text-align: center;
-    margin: 10px;
+    margin: 8px;
     padding: 12px 20px 12px 20px;
     box-shadow: 1px 1px #ccc;
 }
 
 .button2Hover {
     border: 1px solid #ccc;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
     background-color: #ccff99;
     /* color: #666666; */
     color: #8c8c8c;
     text-align: center;
-    margin: 10px;
+    margin: 8px;
     padding: 12px 20px 12px 20px;
     box-shadow: 1px 1px #ccc;
 }

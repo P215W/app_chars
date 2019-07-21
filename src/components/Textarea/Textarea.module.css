@@ -35,9 +35,34 @@
     opacity: 1;
 }
 
+textarea {
+    /* border: 1px solid #66cc00; */
+    border: none;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    margin: 0px 15px;
+    padding: 0px;
+}
+
+.textarea {
+    border: 1px solid #66cc00;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    margin: 20px 15px;
+}
+
 @media screen and (min-width: 800px) {
     .textarea {
         flex: 1;
         order: 1;
+        /* margin: 0px 0px 0px 20px; */
+        /* border: 1px solid red; */
+    }
+
+    textarea {
+        margin: 0px 15px;
+        padding: 0px;
     }
 }

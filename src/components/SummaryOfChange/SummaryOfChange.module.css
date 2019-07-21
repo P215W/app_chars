@@ -6,9 +6,14 @@
 }
 
 .summaryOfChange {
-    /* border: 1px solid red; */
+    border: 1px solid #66cc00;
+    /* box-shadow: inset -1px -1px #66cc00; */
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
     text-align: left;
-    padding: 0px;
+    margin: 0px 15px;
+    padding: 8px 8px 0px 8px;
 }
 
 @media screen and (min-width: 800px) {
@@ -17,7 +22,9 @@
     }
 
     .summaryOfChange {
-        flex: 1;
+        flex: 3;
         order: 2;
+        /* margin: 0px 20px 0px 20px; */
+        /* border: 1px solid red; */
     }
 }
