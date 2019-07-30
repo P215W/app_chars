@@ -22,6 +22,7 @@ const summaryOfChange = props => {
 
   return (
     <div className={styles.summaryOfChange}>
+      <div className={styles.wordSummary}>
       <span>You'll exchange these characters:</span>
       { arrForSummaryOfChangeChars.length > 0 ?
       <div className={styles.charCards}>
@@ -34,7 +35,9 @@ const summaryOfChange = props => {
           />
         ))}
       </div> : <p>-</p> }
-      <p>You'll exchange these words:</p>
+      </div>
+      <div>
+      <span>You'll exchange these words:</span>
       { props.arrForRenderingChangedWords.length > 0 ?
       <div className={styles.charCards}>
         {props.arrForRenderingChangedWords.map((element, index) => (
@@ -46,6 +49,7 @@ const summaryOfChange = props => {
           />
         ))}
       </div> : <p>-</p> }
+      </div>
     </div>
   );
 };

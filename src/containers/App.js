@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-import Button from "../components/Button/Button";
 import AlteredText from "../components/AlteredText/AlteredText";
 import CustomChanges from "../components/CustomChanges/CustomChanges";
 import CustomChar from "../components/CustomChar/CustomChar";
@@ -26,8 +25,6 @@ class App extends Component {
     arrForSummaryOfChange: {},
 
     mapObject: new Map(),
-
-    transformBtn: "Transform text",
 
     styles: "h2M",
 
@@ -68,6 +65,11 @@ class App extends Component {
 
     isTyping: false,
 
+    isTransformBtnDisabled: true,
+
+    isClipboardBtnDisabled: true,
+    clipboardBtnLabel: "Copy to Clipboard",
+
     standardCheckboxes: [
       // {
       //   label: <span>ß &#8594; ss</span>,
@@ -95,7 +97,9 @@ class App extends Component {
         nbrForStatus: 0
       }
     ],
-    textareaWidth: 50
+    // textareaWidth: 50
+    textareaWidth: 60
+
   };
 
   logOut = () => {
@@ -117,11 +121,16 @@ class App extends Component {
 
   textareaOnChange = event => {
     const newPUnderTextarea = event.target.value;
+    let isNotTransformable = true;
+    if (newPUnderTextarea.length >= 1) {
+      isNotTransformable = false;
+    }
 
     this.setState({
       pUnderTextarea: newPUnderTextarea,
       buttonWasClicked: false,
-      isTyping: true
+      isTyping: true,
+      isTransformBtnDisabled: isNotTransformable
     });
   };
 
@@ -169,13 +178,18 @@ class App extends Component {
     });
     console.log("arrUnderTextarea: ", this.state.arrUnderTextarea);
 
+    // for enabling the clipboard-btn
+    
+
     // set arrUnderTextarea equal to that new array
     this.setState({
       arrUnderTextarea: newArr3,
       buttonWasClicked: true,
       buttonWasClicked2: true,
-      transformBtn: "RE-transform text",
-      isTyping: false
+      isTyping: false,
+      isTransformBtnDisabled: true,
+      isClipboardBtnDisabled: false,
+      clipboardBtnLabel: "Copy to Clipboard"
     });
   };
 
@@ -184,16 +198,15 @@ class App extends Component {
     this.setState({
       arrUnderTextarea: reTransformedText,
       buttonWasClicked: false,
-      transformBtn: "Transform text",
+      // transformBtn: "Transform text",
       styles: "h2M"
     });
   };
 
-  clickhandlerTest = () => {
-    console.log("CLICK geht hier");
-    this.reTransformHandler();
-    console.log(this.state);
-  };
+  // clickhandlerTest = () => {
+  //   this.reTransformHandler();
+  //   console.log(this.state);
+  // };
 
   joinWordWithAppendix = (word, arr) => {
     return arr.map(el => word + el);
@@ -551,7 +564,9 @@ class App extends Component {
     );
 
     this.setState({
-      newText: newText
+      newText: newText,
+      clipboardBtnLabel: "Copied successfully",
+      isClipboardBtnDisabled: true
     });
   };
 
@@ -632,10 +647,10 @@ class App extends Component {
       console.log("changedOutput: ", changedOutput);
     }
 
-    let btnHandler = this.transformHandler;
-    if (this.state.buttonWasClicked) {
-      btnHandler = this.reTransformHandler;
-    }
+    // let transfBtnHandler = this.transformHandler;
+    // if (this.state.buttonWasClicked) {
+    //   transfBtnHandler = this.reTransformHandler;
+    // }
 
     return (
       <div className="App">
@@ -662,7 +677,8 @@ class App extends Component {
             changed={this.textareaOnChange}
             isTyping={this.state.isTyping}
             value={stringOrArrayForTxtarea}
-            clicked={this.clickhandlerTest}
+            // clicked={this.clickhandlerTest}
+            clicked={this.reTransformHandler}
             ident="changedTextarea"
           />
           <SummaryOfChange
@@ -674,20 +690,20 @@ class App extends Component {
             forMethodTesting={this.state.forMethodTesting}
           />
         </MainContent>
-        {/* <Button label={this.state.transformBtn} clicked={btnHandler} />
-        <Button
-          label="Copy to Clipboard"
-          clicked={this.copyToClipboardHandlers}
-        /> */}
         <Button2
-          label={this.state.transformBtn}
-          clickHandler={btnHandler}
-          isDisabled={false}
+          // label={this.state.transformBtn}
+          label="Transform text"
+          // clickHandler={transfBtnHandler}
+          clickHandler={this.transformHandler}
+          // isDisabled={false}
+          isDisabled={this.state.isTransformBtnDisabled}
         />
         <Button2
-          label="Copy to Clipboard"
+          // label="Copy to Clipboard"
+          label={this.state.clipboardBtnLabel}
           clickHandler={this.copyToClipboardHandlers}
-          isDisabled={false}
+          // isDisabled={false}
+          isDisabled={this.state.isClipboardBtnDisabled}
         />
         <AlteredText
           styling={this.state.styles}

@@ -1,11 +1,31 @@
-.charCards {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-}
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    /* background: #e6e6e6; */
+    box-shadow: inset 0 0 5px grey;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #8c8c8c;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+  }
+
 
 .summaryOfChange {
+    /* added newly */
+    /* height: 210px;
+    overflow: auto; */
+    /* till here */
     border: 1px solid #66cc00;
     /* box-shadow: inset -1px -1px #66cc00; */
     -webkit-border-radius: 12px;
@@ -13,18 +33,33 @@
     border-radius: 12px;
     text-align: left;
     margin: 0px 15px;
-    padding: 8px 8px 0px 8px;
+    padding: 8px 8px 8px 8px;
+
+}
+
+.charCards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.wordSummary {
+    margin: auto auto 15px auto;
 }
 
 @media screen and (min-width: 800px) {
-    .charCards {
+    /* .charCards {
         justify-content: flex-start;
-    }
+    } */
 
     .summaryOfChange {
         flex: 3;
+        flex: 1;
         order: 2;
         /* margin: 0px 20px 0px 20px; */
         /* border: 1px solid red; */
+        /* height: 210px; */
     }
 }
