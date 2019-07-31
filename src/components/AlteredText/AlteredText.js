@@ -1,12 +1,33 @@
-import React from "react";
+import React, { Component } from "react";
 import styles from "./AlteredText.module.css";
 
-const alteredText = props => {
-  return (
-    <div className={[props.styling, styles.alteredText].join(" ")} id={props.ident} key={props.ident}>
-      {props.content}
-    </div>
-  );
-};
+class AlteredText extends Component {
+  myRef = React.createRef();
 
-export default alteredText;
+  scrollHandler = () => {
+    return this.myRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.isTransformed && prevProps.content !== this.props.content) {
+      this.scrollHandler();
+    }
+  }
+
+  render() {
+    return (
+      <div
+        className={[this.props.styling, styles.alteredText].join(" ")}
+        ref={this.myRef}
+        key={this.props.ident}
+      >
+        {this.props.content}
+      </div>
+    );
+  }
+}
+
+export default AlteredText;

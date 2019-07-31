@@ -11,8 +11,8 @@ button:disabled {
     background-color: #66cc00;
     color: white;
     text-align: center;
-    margin: 8px;
-    padding: 12px 20px 12px 20px;
+    margin: 10px 4px;
+    padding: 16px 15px 16px 15px;
     box-shadow: 1px 1px #ccc;
 }
 
@@ -22,10 +22,9 @@ button:disabled {
     -moz-border-radius: 12px;
     border-radius: 12px;
     background-color: #ccff99;
-    /* color: #666666; */
     color: #8c8c8c;
     text-align: center;
-    margin: 8px;
-    padding: 12px 20px 12px 20px;
+    margin: 10px 4px;
+    padding: 16px 15px 16px 15px;
     box-shadow: 1px 1px #ccc;
 }

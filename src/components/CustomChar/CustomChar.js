@@ -5,7 +5,7 @@ const customChar = props => {
   return (
     <div className={styles.customChar}>
       <form>
-        <label>Replace More Char's
+        <p>Replace More Char's</p>
         <div>
           <input
             type="text"
@@ -14,24 +14,23 @@ const customChar = props => {
             placeholder="to be replaced"
             value={props.valueLeft}
             onChange={props.handleChange.bind(this, "toBeReplaced")}
+          />{" "}
+          &#8594;{" "}
+          <input
+            type="text"
+            maxLength="20"
+            size="9"
+            placeholder="replacing"
+            value={props.valueRight}
+            onChange={props.handleChange.bind(this, "replacing")}
           />
-        {" "} &#8594; {" "}
-        <input
-          type="text"
-          maxLength="20"
-          size="9"
-          placeholder="replacing"
-          value={props.valueRight}
-          onChange={props.handleChange.bind(this, "replacing")}
-        />
-        <input
-          type="submit"
-          value="Add"
-          onClick={props.handleSubmit}
-          disabled={props.valueLeft.length <= 0 ? true : ""}
-        />
+          <input
+            type="submit"
+            value="Add"
+            onClick={props.handleSubmit}
+            disabled={props.valueLeft.length <= 0 ? true : ""}
+          />
         </div>
-        </label>
       </form>
     </div>
   );

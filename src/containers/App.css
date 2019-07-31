@@ -27,7 +27,6 @@ body {
 }
 
 .h2 {
-  /* background: rgb(0, 204, 204); */
   background: #99ff33;
   opacity: 1;
 }
@@ -40,7 +39,6 @@ body {
 
 
  .h2M span {
-  /* background: rgb(0, 204, 204); */
   background: #99ff33;
   opacity: 1;
 }
@@ -49,4 +47,32 @@ body {
   background: rgb(255, 255, 255);
   opacity: 1;
   transition: background 7s;
+}
+
+
+/* Scrollbar: */
+
+/* Width */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8c8c8c;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
 }

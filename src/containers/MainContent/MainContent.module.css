@@ -1,16 +1,13 @@
 .mainContent {
     margin: 0px auto 20px auto;
-    /* border: 1px solid blue; */
 }
     
 @media screen and (min-width: 800px) {
     .mainContent {
         display: flex;
         justify-content: center;
-        /* margin: 20px 85px 20px 0px; */
     }
 }
-
 
 @media screen and (min-width: 1000px) {
     .mainContent {

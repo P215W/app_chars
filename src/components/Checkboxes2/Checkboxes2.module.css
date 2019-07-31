@@ -1,20 +1,13 @@
-/* .checkboxes {
+.checkboxes {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    border: 1px solid red;
-} */
-
-.checkboxesInRow {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    margin: 0px;
 }
 
 @media screen and (max-width: 768px) {
     .checkboxes {
-        margin: 0px 0px 20px 0px;
+        margin: 0px 0px 28px 0px;
     }
 }

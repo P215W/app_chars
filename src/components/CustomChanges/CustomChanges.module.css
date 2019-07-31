@@ -1,5 +1,4 @@
 .customChanges input[type="text"] {
-    /* height: 100px; */
     padding: 12px 20px 12px 20px;
     border: 1px solid #8c8c8c;
     -webkit-border-radius: 10px;
@@ -16,7 +15,7 @@
     color: white;
     text-align: center;
     margin: 10px;
-    padding: 12px 20px 12px 20px;
+    padding: 12px 14px 12px 14px;
     box-shadow: 1px 1px #ccc;
 }
 
@@ -32,6 +31,6 @@
 
 @media screen and (max-width: 768px) {
     .customChanges {
-        margin: 0px 0px 10px 0px;
+        margin: 0px 0px 28px 0px;
     }
 }
